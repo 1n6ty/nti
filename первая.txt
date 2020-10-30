@@ -1,0 +1,53 @@
+def checking():
+    nashli = False
+    for i in range(0, n):
+        for j in range(0, m):
+            if strings[i][j] == '#':
+                strings[i][j] = 'Z'
+                nashli = True
+                break
+        if nashli:
+            break
+
+    a = True
+    while a:
+        a = False
+        for i in range(0, n):
+            for j in range(0, m):
+                if strings[i][j] == 'Z':
+                    if i > 0 and strings[i - 1][j] == '#':
+                        strings[i - 1][j] = 'Z'
+                        a = True
+                    if i < n - 1 and strings[i + 1][j] == '#':
+                        strings[i + 1][j] = 'Z'
+                        a = True
+                    if j > 0 and strings[i][j - 1] == '#':
+                        strings[i][j - 1] = 'Z'
+                        a = True
+                    if j < m - 1 and strings[i][j + 1] == '#':
+                        strings[i][j + 1] = 'Z'
+                        a = True
+                        
+    correct = True
+    for item in strings:
+        for variable in item:
+            if variable == '#':
+                correct = False
+                
+    return correct
+
+string = input()
+dl = len(string)
+for n in range(5, int(dl / 5) + 1):
+    if dl % n == 0:
+        m = int(dl / n)
+        strings = []
+        for i in range(0, n):
+            strings.append(list(string[i * m : (i + 1) * m]))
+        if checking():
+            for i in strings:
+                for j in i:
+                    print('#' if j == 'Z' else '.', end = '') 
+                print()
+            break    
+            

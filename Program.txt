@@ -1,0 +1,71 @@
+'1 - go ahead; 2 - turn right; 3 - turn left; 4 - turn around;
+'Global vars:
+currentState = 0 '0 - start; 1 - mainFeeder; 2 - feeder1; 3 - feeder2; 4 - feeder3; 5 - feeder4
+route = 0 '(Array(If it can be named as Array)) route - route from QRCode [[sv, sv, sv, sv], [sv1, sv1, sv1, sv1]] <- [0;3]
+routePlaned = 0 'Index of pair in QRCode
+'routeList - (Object) Includes all routes from one place to another
+currentRoute = "" 'The route we should follow currently. 
+
+Sub fillRouteList 'Route is like "123123123"
+    'The route from start to main feeder - do manualy!!!
+    'Routes from main feeder
+    routeList[1][2] = "" 'To the first feeder
+    routeList[1][3] = "" 'To the second feeder
+    routeList[1][4] = "" 'To the third feeder
+    routeList[1][5] = "" 'To the forth feeder
+
+    'Routes from the first feeder
+    routeList[2][0] = "" 'To start
+    routeList[2][3] = "" 'To the second feeder
+    routeList[2][4] = "" 'To the third feeder
+    routeList[2][5] = "" 'To the forth feeder
+
+    'Routes from the second feeder
+    routeList[3][0] = "" 'To start
+    routeList[3][2] = "" 'To the first feeder
+    routeList[3][4] = "" 'To the third feeder
+    routeList[3][5] = "" 'To the forth feeder
+
+    'Routes from the third feeder
+    routeList[4][0] = "" 'To start
+    routeList[4][2] = "" 'To the first feeder
+    routeList[4][3] = "" 'To the second feeder
+    routeList[4][5] = "" 'To the forth feeder
+
+    'Routes from the forth feeder
+    routeList[5][0] = "" 'To start
+    routeList[5][2] = "" 'To the first feeder
+    routeList[5][3] = "" 'To the second feeder
+    routeList[5][4] = "" 'To the third feeder
+    EndSub
+fillRouteList() 'Filling list of routes
+
+Sub goAhead
+    'Going ahead to the cross
+    EndSub
+Sub turnLeft
+    'Turn 90 deg left
+    EndSub
+Sub turnRight
+    'Turn 90 deg right
+    EndSub
+Sub turnAround
+    'Turn 180 deg (let it be right direction)
+    EndSub
+
+Sub followRoute
+    currentRoute = routeList[currentState][route[0][routePlaned]] 'routeList[from][route[0][to]]
+    For i = 0 To Array.GetItemCount(currentRoute)
+        if currentRoute[i] = "1" Then
+            goAhead()
+        ElseIf currentRoute[i] = "2" then
+            turnRight()
+        ElseIf currentRoute[i] = "3" then
+            turnLeft()
+        Else
+            turnAround()
+            EndIf
+        EndFor
+    currentState = route[0][routePlaned]
+    routePlaned = routePlaned + 1
+    EndSub
